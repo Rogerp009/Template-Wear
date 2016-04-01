@@ -1,0 +1,122 @@
+$(document).ready(function(){
+	$("#save").click(function(){
+		validateForm();		
+		return false;
+	});
+
+	$("#cancel").click(function(){
+				
+		return false;
+	});
+
+	function validateForm(){	
+
+		var cancel = false;
+
+	    var nameReg = /^[A-Za-z]+$/;
+	    var numberReg =  /^[0-9]+$/;
+	    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+		var name = $("#name").val();
+		var last = $('#last').val();
+		var cd = $('#cd').val();
+		var email = $('#email').val();
+		var pass = $('#password').val();
+
+		console.log(email);
+
+    	var inputVal = new Array(name, last, cd, email, pass);
+    	var inputMessage = new Array("Nombre", "Apellido", "Cedula", "Correo", "Contraseña");
+
+        if(inputVal[0] == ""){	
+        	cancel == true;
+        	$('#name').addClass('error');
+        	$('#msg-name').text("No puede ir vacio");
+            $('#msg-name').show();
+        }else{
+        	if(!nameReg.test(name)){
+        		cancel == true;
+        		$('#name').addClass('error');
+        		$('#msg-name').text("Introduzca un nombre valido");
+            	$('#msg-name').show();
+        	}
+        }  
+
+        if(inputVal[1] == ""){	
+        	cancel == true;
+        	$('#last').addClass('error');
+        	$('#msg-last').text("No puede ir vacio");
+            $('#msg-last').show();
+        }else{
+        	if(!nameReg.test(last)){
+        		cancel == true;
+        		$('#last').addClass('error');
+        		$('#msg-last').text("Introduzca un apellido valido");
+            	$('#msg-last').show();
+        	}
+        }  
+
+        if(inputVal[2] == 0){	
+        	cancel == true;
+        	$('#cd').addClass('error');        	
+        	$('#msg-cd').text("No puede ir vacio");
+            $('#msg-cd').show();
+        }else{
+        	if(!numberReg.test(cd)){
+        		cancel == true;
+        		$('#cd').addClass('error')
+        		$('#msg-cd').text("Introduzca una cedula valida");
+            	$('#msg-cd').show();
+        	}
+        }  
+
+        if(inputVal[3] == ""){
+        	cancel == true;
+        	$('#email').addClass('error');        	
+        	$('#msg-email').text("No puede ir vacio");
+            $('#msg-email').show();
+        }else{
+        	if(!emailReg.test(email)){
+        		cancel == true;
+        		$('#email').addClass('error'); 
+        		$('#msg-email').text("Introduzca un nombre valido");
+            	$('#msg-email').show();
+        	}
+        }  
+
+        if(inputVal[4] == ""){	
+        	cancel == true;
+        	$('#password').addClass('error');        	
+        	$('#msg-password').text("No puede ir vacio");
+            $('#msg-password').show();
+        }else{
+        	if(!nameReg.test(password)){
+        		cancel == true;
+        		$('#password').addClass('error');        		
+        		$('#msg-password').text("Introduzca un nombre valido");
+            	$('#msg-password').show();
+        	}
+        }                          
+
+        if(!cancel){
+        	goToMain();
+        }
+
+        function goToMain(){
+			$.ajax({
+				type:"POST",
+				url:"http://localhost:8080/wear/get/",
+				data:{email:email},
+				cache:false,
+				beforeSend: function(){						
+				},
+				error: function(){
+					alert("Error En Segundo Plano");
+				},
+  				success: function (dato){
+
+				}	
+			});
+        }        
+	}
+});//endDocument
